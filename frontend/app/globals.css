@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-0: #04060d;
+  --bg-1: #070b18;
+  --bg-2: #0b1022;
+  --ink: #e9edff;
+  --ink-muted: #9aa3c0;
+  --ink-dim: #69718f;
+  --accent: #2b59ff;
+  --accent-bright: #4c7dff;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-strong: rgba(255, 255, 255, 0.07);
+}
+
+html,
+body {
+  background: var(--bg-0);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ambient background: deep navy, one soft blue glow top-right, faint star dust */
+.bg-space {
+  background:
+    radial-gradient(60rem 38rem at 72% -12%, rgba(43, 89, 255, 0.28), transparent 62%),
+    radial-gradient(38rem 26rem at 8% 108%, rgba(43, 89, 255, 0.12), transparent 60%),
+    var(--bg-0);
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 90px 140px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 160px 60px, rgba(160, 190, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 210px 190px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 130px 220px, rgba(255, 255, 255, 0.55), transparent);
+  background-size: 240px 240px;
+}
+
+/* Glass card */
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* Floating nav pill */
+.nav-pill {
+  background: rgba(14, 18, 32, 0.72);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,.04) 25%, rgba(255,255,255,.09) 50%, rgba(255,255,255,.04) 75%);
+  background-size: 200% 100%;
+  border-radius: 12px;
+}
+
+/* Scrollbars */
+* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.18) transparent; }
+
+/* Focus ring (visible keyboard focus is required) */
+:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; border-radius: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
