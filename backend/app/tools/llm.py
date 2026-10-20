@@ -9,6 +9,7 @@ import logging
 import re
 from typing import Any
 
+import httpx
 from openai import OpenAI
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
 
@@ -18,8 +19,12 @@ logger = logging.getLogger("secureflow.llm")
 
 
 def _get_client() -> OpenAI:
-    """Create OpenAI client using configured key."""
-    return OpenAI(api_key=settings.openai_api_key or "sk-dummy-key-for-local-tests")
+    """Create OpenAI client using configured key with custom http_client."""
+    client = httpx.Client()
+    return OpenAI(
+        api_key=settings.openai_api_key or "sk-dummy-key-for-local-tests",
+        http_client=client,
+    )
 
 
 def _clean_json_text(text: str) -> str:
