@@ -44,6 +44,11 @@ class RemediationStatus(str, Enum):
     FAILED = "FAILED"
 
 
+# Backward-compatible and UI type aliases
+FindingStatus = RemediationStatus
+RemediationTier = TierEnum
+
+
 class RunStatus(str, Enum):
     QUEUED = "QUEUED"
     RUNNING = "RUNNING"
@@ -97,6 +102,8 @@ class Finding(BaseModel):
     priority_score: float = 0.0
     source_available: bool = False
     remediation_status: RemediationStatus = RemediationStatus.NEW
+    status: RemediationStatus = RemediationStatus.NEW
+    is_fix_ready: bool = False
     run_id: Optional[str] = None
 
     @computed_field
@@ -152,9 +159,13 @@ class PRInfo(BaseModel):
     url: str = ""
     branch: str = ""
     state: str = "draft"
+    merged: bool = False
     created_at: Optional[datetime] = None
     merged_at: Optional[datetime] = None
     closed_at: Optional[datetime] = None
+
+
+PullRequestInfo = PRInfo
 
 
 class UsageInfo(BaseModel):

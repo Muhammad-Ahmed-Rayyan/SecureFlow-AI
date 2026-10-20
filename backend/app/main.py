@@ -20,7 +20,21 @@ from app.store.base import Store
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Initialise store on startup
-    get_store()
+    store = get_store()
+    # Auto-seed ps09 CSV if store is empty
+    findings = store.list_findings({"page": 1, "page_size": 1})
+    if not findings:
+        from pathlib import Path
+        from app.ingest.csv_parser import parse_csv_content
+        from app.ingest.normalizer import normalize_findings
+
+        csv_path = Path(__file__).resolve().parent.parent / "data" / "ps09_vulnerability_scans.csv"
+        if csv_path.exists():
+            raw_text = csv_path.read_text(encoding="utf-8")
+            raw_rows = parse_csv_content(raw_text)
+            norm = normalize_findings(raw_rows)
+            for f in norm:
+                store.save_finding(f)
     yield
 
 

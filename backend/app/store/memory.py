@@ -19,11 +19,20 @@ class MemoryStore(Store):
         self._events: dict[str, list[Event]] = {}   # run_id -> sorted list
         self._counters: dict[str, int] = {}
 
+    def clear(self) -> None:
+        with self._lock:
+            self._findings.clear()
+            self._runs.clear()
+            self._events.clear()
+            self._counters.clear()
+
     # --- Findings ---
 
     def upsert_finding(self, finding: Finding) -> None:
         with self._lock:
             self._findings[finding.id] = deepcopy(finding)
+
+    save_finding = upsert_finding
 
     def get_finding(self, finding_id: str) -> Optional[Finding]:
         with self._lock:
@@ -104,6 +113,13 @@ class MemoryStore(Store):
         with self._lock:
             self._runs[run.id] = deepcopy(run)
             self._events.setdefault(run.id, [])
+
+    def upsert_run(self, run: Run) -> None:
+        with self._lock:
+            self._runs[run.id] = deepcopy(run)
+            self._events.setdefault(run.id, [])
+
+    save_run = upsert_run
 
     def get_run(self, run_id: str) -> Optional[Run]:
         with self._lock:
