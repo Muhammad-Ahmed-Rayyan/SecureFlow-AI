@@ -111,6 +111,38 @@ export interface MetricsSummaryResponse {
   acceptance_rate_pct: number;
   baseline_without_fix_share_pct: number;
   severities: Record<string, number>;
+  acceptance?: {
+    merged: number;
+    closed_unmerged: number;
+    open: number;
+    n_decided: number;
+    rate: number | null;
+  } | null;
+  backlog?: {
+    total_findings: number;
+    open: number;
+    critical_high: number;
+    older_than_90d: number;
+    estimated_hours: number;
+  } | null;
+  baseline?: {
+    effort_hours_mean: number;
+    effort_hours_n: number;
+    exposure_days_mean: number;
+  } | null;
+  pipeline?: {
+    runs_total: number;
+    runs_failed: number;
+    escalated: number;
+    prs_open: number;
+    prs_merged: number;
+    prs_closed: number;
+  } | null;
+  mttr?: {
+    time_to_draft_pr_s_mean: number | null;
+    time_to_merge_s_mean: number | null;
+    reduction_pct: number | null;
+  } | null;
 }
 
 export interface BacklogTimelinePoint {
